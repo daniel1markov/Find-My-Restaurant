@@ -17,19 +17,19 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/gson-2.8.9.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/gson-2.8.9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/PatternSearchingAlgorithm.jar!/" />
+          <root url="jar://$MODULE_DIR$/lib/PatternSearchingAlgorithm.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
