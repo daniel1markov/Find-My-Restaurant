@@ -10,7 +10,7 @@ public class RestaurantServiceTest {
         static final String txt = "Daniel and Inbar Algorithms";
 
         @Test
-        public void RabinKarpTest_PatternExists_ShouldPass() throws Exception {
+        public void RabinKarpTest_PatternExists_ShouldPass() {
             String pat = "Algo";
             IAlgoPatternSearching robinKarp = new RabinKarpAlgorithm(txt, pat);
             boolean result = robinKarp.Search();
