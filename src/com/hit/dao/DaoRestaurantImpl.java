@@ -145,6 +145,7 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{  // think ab
         this.save(entity);
     }
 
+    @Override
     public Map<String, List <Restaurant>> findByCategory() throws IOException {
         Map<String, List<Restaurant>> categoryHolder;
         Type categoryType = new TypeToken <Map<String, List<Restaurant>>>(){}.getType();
@@ -164,7 +165,7 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{  // think ab
         return restHolder;
     }
 
-    public void printFromRest() throws IOException, ClassNotFoundException {  //delete before submitting !!
+    public void printFromRest() throws IOException {  //delete before submitting !!
         List<Restaurant> printRests;
         printRests = this.findAll();
         for (Restaurant restaurant: printRests)
