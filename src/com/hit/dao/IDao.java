@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IDao<ID extends java.io.Serializable,T>{
     void save(T entity) throws IOException, ClassNotFoundException;
-    void delete(T entity) throws IOException, ClassNotFoundException;
-    void update (T entity, ID[] params);
+    void delete(ID entity) throws IOException, ClassNotFoundException;
+    void update (T entity) throws IOException;
     List <T> findAll() throws IOException, ClassNotFoundException;
 }

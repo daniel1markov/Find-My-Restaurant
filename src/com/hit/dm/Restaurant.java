@@ -3,6 +3,8 @@ package com.hit.dm;
 import java.io.Serializable;
 
 public class Restaurant implements Serializable {
+
+    // id..
     private String name;
     private String category;
     private String address;
@@ -12,9 +14,10 @@ public class Restaurant implements Serializable {
 
     public Restaurant(){}
 
-    public Restaurant( String category,String name, String address,String city, String phoneNumber, String rating) {
-        this.name = name;
+    public Restaurant(String category,String name, String address,String city, String phoneNumber, String rating) {
+
         this.category = category;
+        this.name = name;
         this.address = address;
         this.city = city;
         this.phoneNumber = phoneNumber;
@@ -74,22 +77,16 @@ public class Restaurant implements Serializable {
     {
         return "{'" +
                 "Category':'" + this.getCategory() + '\'' +
-                ", Name':'" + this.getName() + '\'' +
-                ", Address':'" + this.getAddress() + '\'' +
-                ", City':'" + this.getCity() + '\'' +
-                ", PhoneNumber':'" + this.getPhoneNumber() + '\'' +
-                ", Rating':'" + this.getRating() + "}";
-    }
-    public String printByCategory()
-    {
-        return this.getName() + ", " + this.getAddress() + ", " + this.getPhoneNumber()
-                + ", " + this.getRating();
+                ", 'Name':'" + this.getName() + '\'' +
+                ", 'Address':'" + this.getAddress() + '\'' +
+                ", 'City':'" + this.getCity() + '\'' +
+                ", 'PhoneNumber':'" + this.getPhoneNumber() + '\'' +
+                ", 'Rating':'" + this.getRating() + "'}";
     }
 
-    public String printByName()
-    {
-        return this.getCategory() +", " + this.getAddress() + " " + this.getCity() + ", " + this.getPhoneNumber()
-                + ", " + this.getRating();
+    public String printRestDetails() {
+        return this.getName() + ", " + this.getCategory()+ ", " + this.getAddress() + ", " + this.getCity() + ", "
+                + this.getPhoneNumber()  + ", " + this.getRating();
     }
 
 }

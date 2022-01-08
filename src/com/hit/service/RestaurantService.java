@@ -1,17 +1,18 @@
 package com.hit.service;
 import com.hit.algorithm.BoyerMooreAlgorithm;
 import com.hit.algorithm.RabinKarpAlgorithm;
-import com.hit.dao.DaoRestaurantJsonImpl;
+import com.hit.dao.DaoRestaurantImpl;
 import com.hit.dm.Restaurant;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class RestaurantService {
+public class RestaurantService { // create new rest implementation. // think about right logic for delete, add, update!
 
-    DaoRestaurantJsonImpl daoRestaurant;
+    DaoRestaurantImpl daoRestaurant = new DaoRestaurantImpl();
+
+    public RestaurantService() throws IOException {
+    }
 
     public static void main(String [] args) throws IOException, ClassNotFoundException {
 
@@ -20,48 +21,88 @@ public class RestaurantService {
         System.out.println("Searching for sushi :) \n"); //search by category
         service.getRestaurantDetailsByCategory("sushi");
 
-        System.out.println("\n");
-        System.out.println("Searching for hut restaurant  \n"); //search by Names
-        service.getRestaurantDetailsByName("hut");
+
 
         System.out.println("\n");
 
         System.out.println("Searching for burgers \n");// search with a good prefix bur in burger
         service.getRestaurantDetailsByCategory("bur");
+        System.out.println("\n");
+
+
+        service.createNewRest(); // adding new rest
+        service.daoRestaurant.printFromRest();
+
+        service.deleteRest();
+        service.daoRestaurant.printFromRest();
 
 
         System.out.println("print all \n");
-        service.daoRestaurant.printFromRest(); // prints all Jsons.
 
-        service.daoRestaurant.delete(new Restaurant("Sushi", "One", "Eliezer 5", "Tel-Aviv", "03-1113211", "4.9")); //delete existing rest
-        service.daoRestaurant.printFromRest(); // result after deletion
+        service.deleteRest(); //update.
+        service.daoRestaurant.printFromRest();
+    }
 
-        service.daoRestaurant.save(new Restaurant("Sushi", "Hell-Yeah","Sheesh 23","Holon", "03-2112033", "2.1")); // Adding new rest
-        service.daoRestaurant.printFromRest();// result after Adding
+    public String[] getInfo(){
 
-        service.daoRestaurant.save( new Restaurant("Sabih", "Shel-zion","hoop 23","Haifa", "09-2773334", "4.5")); // Adding new non existing category rest
-        service.daoRestaurant.printFromRest();// result after Adding
+        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        String[] restDetails = { "Category", "Name", "Address", "City", "Phone Number", "rating"};
+        for(int i=0; i< restDetails.length; i++)
+        {
+            System.out.println("Enter " + restDetails[i] + " :");
+            String details = myObj.nextLine();
+            restDetails[i] =details;
+        }
+        return restDetails;
+    }
 
-        service.daoRestaurant.delete( new Restaurant("Italliano", "Mamamia","anavim 23","ashdod", "08-2773334", "4.1")); // delete new non existing category rest
-        service.daoRestaurant.printFromRest();// result after Adding == should be the same as above.
+    public String getName(){
 
+        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        System.out.println("Enter the Name of the restaurant:");
+        String details = myObj.nextLine();
+        return details;
+    }
+
+    public void createNewRest() throws IOException {
+        Restaurant restaurant = new Restaurant();
+        String[] params = this.getInfo();
+        restaurant.setCategory(Objects.requireNonNull(
+                params[0], "Category cannot be null"));
+        restaurant.setName(Objects.requireNonNull(
+                params[1], "Name cannot be null"));
+        restaurant.setAddress(Objects.requireNonNull(
+                params[2], "Address cannot be null"));
+        restaurant.setCity(Objects.requireNonNull(
+                params[3], "City cannot be null"));
+        restaurant.setPhoneNumber(Objects.requireNonNull(
+                params[4], "PhoneNumber cannot be null"));
+        restaurant.setRating(Objects.requireNonNull(
+                params[5], "Rating cannot be null"));
+
+        daoRestaurant.update(restaurant);
+    }
+
+//    public void updateRest() throws IOException, ClassNotFoundException {
+//        Restaurant restaurant = daoRestaurant.create(this.getInfo());
+//        daoRestaurant.update(restaurant);
+//    }
+
+    public void deleteRest() throws IOException {
+        String restName = this.getName();
+        daoRestaurant.delete(restName);
     }
 
     public void getRestaurantDetailsByName(String restaurantName) throws IOException, ClassNotFoundException {
-        if(daoRestaurant == null)
-        {
-            daoRestaurant = new DaoRestaurantJsonImpl();
-        }
-
         List<Restaurant> allRests = daoRestaurant.findAll();
         boolean found = false;
         List<Restaurant> foundRests = new ArrayList <>();
-        BoyerMooreAlgorithm booyerM = new BoyerMooreAlgorithm();
-        booyerM.SetPattern(restaurantName);
+        BoyerMooreAlgorithm boyerM = new BoyerMooreAlgorithm();
+        boyerM.SetPattern(restaurantName);
         for(Restaurant rest: allRests)
         {
-            booyerM.SetText(rest.getName());
-            if(booyerM.Search())
+            boyerM.SetText(rest.getName());
+            if(boyerM.Search())
             {
                 found = true;
                 foundRests.add(rest);
@@ -78,16 +119,14 @@ public class RestaurantService {
         }
         for(Restaurant restaurant: foundRests)
         {
-            System.out.println(restaurant.printByName() + "\n");
+            System.out.println(restaurant.printRestDetails() + "\n");
 
         }
     }
 
+
     public void getRestaurantDetailsByCategory(String category) throws IOException, ClassNotFoundException {
-        if(daoRestaurant == null)
-        {
-            daoRestaurant = new DaoRestaurantJsonImpl();
-        }
+
         Map <String, List<Restaurant>> allCategories = daoRestaurant.findByCategory();
         boolean found = false;
         List<List<Restaurant>> foundCategories = new ArrayList <>();
@@ -114,9 +153,8 @@ public class RestaurantService {
         for(List<Restaurant> restaurants: foundCategories)
         {
             for (Restaurant  rest: restaurants) {
-                System.out.println(rest.printByCategory() + "\n");
+                System.out.println(rest.printRestDetails() + "\n");
             }
-
         }
     }
 }
