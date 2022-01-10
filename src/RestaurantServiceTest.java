@@ -1,7 +1,5 @@
-import com.hit.algorithm.IAlgoPatternSearching;
-import com.hit.algorithm.RabinKarpAlgorithm;
-import com.hit.dao.DaoRestaurantImpl;
 import com.hit.dm.Restaurant;
+import com.hit.service.RestaurantService;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,26 +9,47 @@ import java.util.Map;
 
 public class RestaurantServiceTest {
 
-    @Test
-    public void GetCategoriesService_FindSushiRests_ShouldReturn2() throws IOException, ClassNotFoundException {
+    RestaurantService restaurantService = new RestaurantService();
 
-        DaoRestaurantImpl daoRestaurant = new DaoRestaurantImpl();
-        Map <String, List <Restaurant>> categories = daoRestaurant.findByCategory();
-
-        List<Restaurant> sushiRests = categories.get("Sushi");
-
-        Assert.assertTrue(sushiRests.size() == 2);
+    public RestaurantServiceTest() throws IOException {
     }
 
     @Test
-    public void SaveNewRestService_FindNewNumberOfRests_ShouldReturn7() throws IOException, ClassNotFoundException {
+    public void GetCategoriesService_FindSushiRests_ShouldReturn2() throws IOException {
 
-        DaoRestaurantImpl daoRestaurant = new DaoRestaurantImpl();
+        Map <String, List <Restaurant>> categories = restaurantService.daoRestaurant.findByCategory();
+
+        List<Restaurant> sushiRests = categories.get("Sushi");
+
+        Assert.assertEquals(2, sushiRests.size());
+    }
+
+    @Test
+    public void SaveNewRestService_FindNewNumberOfRests_ShouldReturn7() throws IOException {
+
         Restaurant restaurant = new Restaurant("test", "test", "test", "test", "test", "test");
-        daoRestaurant.save(restaurant);
+        restaurantService.daoRestaurant.save(restaurant);
 
-        List<Restaurant> allRests = daoRestaurant.findAll();
+        List<Restaurant> allRests = restaurantService.daoRestaurant.findAll();
 
-        Assert.assertTrue(allRests.size() == 7);
+        Assert.assertEquals(7,allRests.size());
+    }
+
+    @Test
+    public void UpdateRestService_FindNewCategory_ShouldReturn_Asian() throws IOException {
+
+        restaurantService.daoRestaurant.update(new Restaurant("Asian", "Tompopo", "test", "test", "test", "test"));
+
+        Map<String, List <Restaurant>> allCategories = restaurantService.daoRestaurant.findByCategory();
+
+        try{
+            List <Restaurant> asian = allCategories.get("Asian");
+            Assert.assertEquals(1,asian.size());
+        }
+
+        catch (Exception ex)
+        {
+            Assert.fail();
+        }
     }
 }

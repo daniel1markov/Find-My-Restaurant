@@ -7,40 +7,12 @@ import com.hit.dm.Restaurant;
 import java.io.IOException;
 import java.util.*;
 
-public class RestaurantService { // create new rest implementation. // think about right logic for delete, add, update!
+public class RestaurantService {
 
-    DaoRestaurantImpl daoRestaurant = new DaoRestaurantImpl();
+    public DaoRestaurantImpl daoRestaurant;
 
     public RestaurantService() throws IOException {
-    }
-
-    public static void main(String [] args) throws IOException, ClassNotFoundException {
-
-        RestaurantService service = new RestaurantService();
-
-        System.out.println("Searching for sushi :) \n"); //search by category
-        service.getRestaurantDetailsByCategory("sushi");
-
-
-
-        System.out.println("\n");
-
-        System.out.println("Searching for burgers \n");// search with a good prefix bur in burger
-        service.getRestaurantDetailsByCategory("bur");
-        System.out.println("\n");
-
-
-        service.createNewRest(); // adding new rest
-        service.daoRestaurant.printFromRest();
-
-        service.deleteRest();
-        service.daoRestaurant.printFromRest();
-
-
-        System.out.println("print all \n");
-
-        service.deleteRest(); //update.
-        service.daoRestaurant.printFromRest();
+        daoRestaurant = new DaoRestaurantImpl();
     }
 
     public String[] getInfo(){
@@ -60,11 +32,11 @@ public class RestaurantService { // create new rest implementation. // think abo
 
         Scanner myObj = new Scanner(System.in);  // Create a Scanner object
         System.out.println("Enter the Name of the restaurant:");
-        String details = myObj.nextLine();
-        return details;
+        return myObj.nextLine();
     }
 
     public void createNewRest() throws IOException {
+
         Restaurant restaurant = new Restaurant();
         String[] params = this.getInfo();
         restaurant.setCategory(Objects.requireNonNull(
@@ -83,23 +55,18 @@ public class RestaurantService { // create new rest implementation. // think abo
         daoRestaurant.update(restaurant);
     }
 
-//    public void updateRest() throws IOException, ClassNotFoundException {
-//        Restaurant restaurant = daoRestaurant.create(this.getInfo());
-//        daoRestaurant.update(restaurant);
-//    }
-
     public void deleteRest() throws IOException {
         String restName = this.getName();
         daoRestaurant.delete(restName);
     }
 
-    public void getRestaurantDetailsByName(String restaurantName) throws IOException, ClassNotFoundException {
+    public void getRestaurantDetailsByName(String restaurantName) throws IOException {
         List<Restaurant> allRests = daoRestaurant.findAll();
         boolean found = false;
         List<Restaurant> foundRests = new ArrayList <>();
         BoyerMooreAlgorithm boyerM = new BoyerMooreAlgorithm();
         boyerM.SetPattern(restaurantName);
-        for(Restaurant rest: allRests)
+        for (Restaurant rest: allRests)
         {
             boyerM.SetText(rest.getName());
             if(boyerM.Search())
@@ -117,7 +84,7 @@ public class RestaurantService { // create new rest implementation. // think abo
         {
             System.out.println("We have found some matches:\n");
         }
-        for(Restaurant restaurant: foundRests)
+        for (Restaurant restaurant: foundRests)
         {
             System.out.println(restaurant.printRestDetails() + "\n");
 
@@ -125,14 +92,14 @@ public class RestaurantService { // create new rest implementation. // think abo
     }
 
 
-    public void getRestaurantDetailsByCategory(String category) throws IOException, ClassNotFoundException {
+    public void getRestaurantDetailsByCategory(String category) throws IOException {
 
         Map <String, List<Restaurant>> allCategories = daoRestaurant.findByCategory();
         boolean found = false;
         List<List<Restaurant>> foundCategories = new ArrayList <>();
         RabinKarpAlgorithm rabinKarpAlgorithm = new RabinKarpAlgorithm();
         rabinKarpAlgorithm.SetPattern(category);
-        for(String rest: allCategories.keySet())
+        for (String rest: allCategories.keySet())
         {
             rabinKarpAlgorithm.SetText(rest);
             if(rabinKarpAlgorithm.Search())
@@ -150,7 +117,7 @@ public class RestaurantService { // create new rest implementation. // think abo
         {
             System.out.println("We have found some matches:\n");
         }
-        for(List<Restaurant> restaurants: foundCategories)
+        for (List<Restaurant> restaurants: foundCategories)
         {
             for (Restaurant  rest: restaurants) {
                 System.out.println(rest.printRestDetails() + "\n");

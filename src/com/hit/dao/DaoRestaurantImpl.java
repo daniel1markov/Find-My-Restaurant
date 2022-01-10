@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
 
-public class DaoRestaurantImpl implements IDao<String, Restaurant>{  // think about right logic for delete, add, update, create.
+public class DaoRestaurantImpl implements IDao<String, Restaurant>{
 
     Gson gson = new Gson();
     List<Restaurant> restaurants = new ArrayList <>();
@@ -63,7 +63,7 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{  // think ab
             newAddedKey.add(restaurant);
             categoryHolder.put(restaurant.getCategory(), newAddedKey);
             System.out.println("\n");
-            System.out.println("WooW new category has added to our map: " + restaurant.getCategory() + ".\n");
+            System.out.println("Wow new category has added to our restaurants: " + restaurant.getCategory() + ".\n");
         }
 
         String toJson = gson.toJson(restHolder);
@@ -165,14 +165,14 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{  // think ab
         return restHolder;
     }
 
-    public void printFromRest() throws IOException {  //delete before submitting !!
-        List<Restaurant> printRests;
-        printRests = this.findAll();
-        for (Restaurant restaurant: printRests)
-        {
-            System.out.println(restaurant);
-        }
-    }
+//    public void printFromRest() throws IOException {  //delete before submitting !!
+//        List<Restaurant> printRests;
+//        printRests = this.findAll();
+//        for (Restaurant restaurant: printRests)
+//        {
+//            System.out.println(restaurant);
+//        }
+//    }
 
     public void firstInjection()
     {
