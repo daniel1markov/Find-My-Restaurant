@@ -11,7 +11,7 @@ public class JavaLogger {
 
     static {
         try {
-            handler = new FileHandler("ServiceLog.txt");
+            handler = new FileHandler("Logs\\RestaurantLogs.log");
             logger.addHandler(handler);
             SimpleFormatter formatter = new SimpleFormatter();
             handler.setFormatter(formatter);
