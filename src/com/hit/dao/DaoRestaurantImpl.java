@@ -34,7 +34,6 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{
     @Override
     public void save(Restaurant restaurant) throws IOException {
 
-
         List<Restaurant> restHolder;
         Map<String, List<Restaurant>> categoryHolder;
         List<Restaurant> withAddedRest;
