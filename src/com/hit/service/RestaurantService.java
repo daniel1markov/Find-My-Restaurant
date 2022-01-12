@@ -20,7 +20,7 @@ public class RestaurantService {
 
     public String[] getInfo(){
 
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        Scanner myObj = new Scanner(System.in);  // Create a Scanner object //for UI
         String[] restDetails = { "Category", "Name", "Address", "City", "Phone Number", "rating"};
         for(int i=0; i< restDetails.length; i++)
         {
@@ -33,7 +33,7 @@ public class RestaurantService {
 
     public String getName(){
 
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object
+        Scanner myObj = new Scanner(System.in);  // Create a Scanner object //for UI
         System.out.println("Enter the Name of the restaurant:");
         return myObj.nextLine();
     }
@@ -86,16 +86,16 @@ public class RestaurantService {
         if(!found)
         {
             JavaLogger.logger.log(Level.INFO, restaurantName + " Restaurant not found" );
-            System.out.println("Sorry, There's no Rest with that name or you have misspelled it");
+            System.out.println("Sorry, There's no Rest with that name or you have misspelled it"); //for UI
         }
 
         if(foundRests.size() > 0)
         {
-            System.out.println("We have found some matches:\n");
+            System.out.println("We have found some matches:\n"); //for UI
         }
         for (Restaurant restaurant: foundRests)
         {
-            System.out.println(restaurant.printRestDetails() + "\n");
+            System.out.println(restaurant.printRestDetails() + "\n"); //for UI
 
         }
     }
@@ -121,17 +121,17 @@ public class RestaurantService {
         if(!found)
         {
             JavaLogger.logger.log(Level.WARNING,  category + " Category was not found" );
-            System.out.println("Sorry, we don't have that category or you have misspelled it");
+            System.out.println("Sorry, we don't have that category or you have misspelled it"); //for UI
         }
 
         if(foundCategories.size() > 0)
         {
-            System.out.println("We have found some matches:\n");
+            System.out.println("We have found some matches:\n"); //for UI
         }
         for (List<Restaurant> restaurants: foundCategories)
         {
             for (Restaurant  rest: restaurants) {
-                System.out.println(rest.printRestDetails() + "\n");
+                System.out.println(rest.printRestDetails() + "\n"); //for UI
             }
         }
     }
