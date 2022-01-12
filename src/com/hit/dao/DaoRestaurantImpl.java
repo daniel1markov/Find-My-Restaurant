@@ -1,5 +1,6 @@
 package com.hit.dao;
 import com.google.gson.reflect.TypeToken;
+import com.hit.JavaLogger.JavaLogger;
 import com.hit.dm.Restaurant;
 import com.google.gson.Gson;
 import java.io.FileReader;
@@ -7,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.logging.Level;
 
 public class DaoRestaurantImpl implements IDao<String, Restaurant>{
 
@@ -18,7 +20,7 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{
 
     public DaoRestaurantImpl() throws IOException {
 
-       firstInjection();
+        firstInjection();
        FileWriter fileWriter = new FileWriter(wholePath);
        FileWriter fileWriterCategory = new FileWriter(categoryPath);
        String toJson = gson.toJson(restaurants);
@@ -31,6 +33,7 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{
 
     @Override
     public void save(Restaurant restaurant) throws IOException {
+
 
         List<Restaurant> restHolder;
         Map<String, List<Restaurant>> categoryHolder;
@@ -48,22 +51,20 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{
         FileWriter fileWriterCategory = new FileWriter(categoryPath);
 
         restHolder.add(restaurant); //adding the new rest to our whole list.
-        System.out.println("\n");
-        System.out.println(restaurant.getName() + " rest Was Added to whole restaurants list successfully.\n");
+        JavaLogger.logger.log(Level.INFO,restaurant.getName() + " rest Was Added to whole restaurants list successfully.\n" );
 
         try {
             withAddedRest = categoryHolder.get(restaurant.getCategory().toLowerCase());
             withAddedRest.add(restaurant);
             categoryHolder.put(restaurant.getCategory(), withAddedRest);
-            System.out.println(restaurant.getName() + " rest Was Added to categories map successfully.\n");
+            JavaLogger.logger.log(Level.INFO, restaurant.getName() + " rest Was Added to categories map successfully.\n");
         }
         catch (Exception ex) //if this category doesn't exists in our map we want to create one.
         {
             List<Restaurant> newAddedKey = new ArrayList <>();
             newAddedKey.add(restaurant);
             categoryHolder.put(restaurant.getCategory(), newAddedKey);
-            System.out.println("\n");
-            System.out.println("Wow new category has added to our restaurants: " + restaurant.getCategory() + ".\n");
+            JavaLogger.logger.log(Level.INFO,"Wow new category has added to our restaurants: " + restaurant.getCategory() + ".\n");
         }
 
         String toJson = gson.toJson(restHolder);
@@ -99,8 +100,7 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{
             if (restHolder.get(countAll).getName().equalsIgnoreCase(restaurantName)) {
                 category = restHolder.get(countAll).getCategory();
                 restHolder.remove(countAll);
-                System.out.println("\n");
-                System.out.println(restaurantName + " rest Was deleted from whole restaurants list successfully.\n");
+                JavaLogger.logger.log(Level.INFO, restaurantName + " rest Was deleted from whole restaurants list successfully.\n");
             }
         }
 
@@ -120,13 +120,11 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{
             else {
                 categoryHolder.remove(category); // if we deleted the last element so let's remove it from our map.
             }
-            System.out.println("\n");
-            System.out.println(restaurantName + " rest Was deleted from category map successfully.\n");
+            JavaLogger.logger.log(Level.INFO,restaurantName + " rest Was deleted from category map successfully.\n");
         }
         catch (Exception ex) // if this category doesn't exists in our we can't to delete it.
         {
-            System.out.println("\n");
-            System.out.println(category + " Category doesn't exists, can't delete it.\n");
+            JavaLogger.logger.log(Level.WARNING, category + " Category doesn't exists, can't delete it.\n");
         }
 
         // write back after the deletion
@@ -164,15 +162,6 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{
         fileReader.close();
         return restHolder;
     }
-
-//    public void printFromRest() throws IOException {  //delete before submitting !!
-//        List<Restaurant> printRests;
-//        printRests = this.findAll();
-//        for (Restaurant restaurant: printRests)
-//        {
-//            System.out.println(restaurant);
-//        }
-//    }
 
     public void firstInjection()
     {
