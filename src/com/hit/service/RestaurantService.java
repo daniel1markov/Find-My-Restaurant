@@ -18,54 +18,53 @@ public class RestaurantService {
         daoRestaurant = new DaoRestaurantImpl();
     }
 
-    public String[] getInfo(){
+//    public String[] getInfo(){
+//
+//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object //for UI
+//        String[] restDetails = { "Category", "Name", "Address", "City", "Phone Number", "rating"};
+//        for(int i=0; i< restDetails.length; i++)
+//        {
+//            System.out.println("Enter " + restDetails[i] + " :");
+//            String details = myObj.nextLine();
+//            restDetails[i] =details;
+//        }
+//        return restDetails;
+//    }
+//
+//    public String getName(){
+//
+//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object //for UI
+//        System.out.println("Enter the Name of the restaurant:");
+//        return myObj.nextLine();
+//    }
 
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object //for UI
-        String[] restDetails = { "Category", "Name", "Address", "City", "Phone Number", "rating"};
-        for(int i=0; i< restDetails.length; i++)
-        {
-            System.out.println("Enter " + restDetails[i] + " :");
-            String details = myObj.nextLine();
-            restDetails[i] =details;
-        }
-        return restDetails;
-    }
-
-    public String getName(){
-
-        Scanner myObj = new Scanner(System.in);  // Create a Scanner object //for UI
-        System.out.println("Enter the Name of the restaurant:");
-        return myObj.nextLine();
-    }
-
-    public void createNewRest() throws IOException {
+    public void createNewRest(String[] args) throws IOException {
 
         Restaurant restaurant = new Restaurant();
-        String[] params = this.getInfo();
+//        String[] params = this.getInfo();
         restaurant.setCategory(Objects.requireNonNull(
-                params[0], "Category cannot be null"));
+                args[0], "Category cannot be null"));
         restaurant.setName(Objects.requireNonNull(
-                params[1], "Name cannot be null"));
+                args[1], "Name cannot be null"));
         restaurant.setAddress(Objects.requireNonNull(
-                params[2], "Address cannot be null"));
+                args[2], "Address cannot be null"));
         restaurant.setCity(Objects.requireNonNull(
-                params[3], "City cannot be null"));
+                args[3], "City cannot be null"));
         restaurant.setPhoneNumber(Objects.requireNonNull(
-                params[4], "PhoneNumber cannot be null"));
+                args[4], "PhoneNumber cannot be null"));
         restaurant.setRating(Objects.requireNonNull(
-                params[5], "Rating cannot be null"));
+                args[5], "Rating cannot be null"));
 
         JavaLogger.logger.log(Level.INFO, "Enter update (DAO) with " + restaurant + " argument" );
         daoRestaurant.update(restaurant);
     }
 
-    public void deleteRest() throws IOException {
-        String restName = this.getName();
+    public void deleteRest(String restName) throws IOException {
         JavaLogger.logger.log(Level.INFO, "Enter delete (DAO) with " + restName + " argument" );
         daoRestaurant.delete(restName);
     }
 
-    public void getRestaurantDetailsByName(String restaurantName) throws IOException {
+    public List<Restaurant> getRestaurantDetailsByName(String restaurantName) throws IOException {
 
         JavaLogger.logger.log(Level.INFO, "Enter getRestaurantDetailsByName with " + restaurantName + " argument" );
         List<Restaurant> allRests = daoRestaurant.findAll();
@@ -88,19 +87,10 @@ public class RestaurantService {
             JavaLogger.logger.log(Level.INFO, restaurantName + " Restaurant not found" );
             System.out.println("Sorry, There's no Rest with that name or you have misspelled it"); //for UI
         }
-
-        if(foundRests.size() > 0)
-        {
-            System.out.println("We have found some matches:\n"); //for UI
-        }
-        for (Restaurant restaurant: foundRests)
-        {
-            System.out.println(restaurant.printRestDetails() + "\n"); //for UI
-
-        }
+        return foundRests;
     }
 
-    public void getRestaurantDetailsByCategory(String category) throws IOException {
+    public List <Restaurant> getRestaurantDetailsByCategory(String category) throws IOException { // make build in options for UI so no double categories.
 
         JavaLogger.logger.log(Level.INFO, "Enter getRestaurantDetailsByCategory with " + category + " argument" );
         Map <String, List<Restaurant>> allCategories = daoRestaurant.findByCategory();
@@ -122,17 +112,15 @@ public class RestaurantService {
         {
             JavaLogger.logger.log(Level.WARNING,  category + " Category was not found" );
             System.out.println("Sorry, we don't have that category or you have misspelled it"); //for UI
+            return null;
         }
 
-        if(foundCategories.size() > 0)
-        {
-            System.out.println("We have found some matches:\n"); //for UI
-        }
-        for (List<Restaurant> restaurants: foundCategories)
-        {
-            for (Restaurant  rest: restaurants) {
-                System.out.println(rest.printRestDetails() + "\n"); //for UI
-            }
-        }
+        return foundCategories.get(0);
+//        for (List<Restaurant> restaurants: foundCategories)
+//        {
+//            for (Restaurant  rest: restaurants) {
+//                System.out.println(rest.printRestDetails() + "\n"); //for UI
+//            }
+//        }
     }
 }

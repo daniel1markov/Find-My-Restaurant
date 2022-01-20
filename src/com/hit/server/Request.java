@@ -8,9 +8,12 @@ public class Request {
     private String body;
 
     public Request(Map<String, String> headers, String body) {
-        super();
         this.headers = headers;
         this.body = body;
+    }
+
+    public Request() {
+
     }
 
 
