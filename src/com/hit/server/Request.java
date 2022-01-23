@@ -39,6 +39,6 @@ public class Request {
 
     @Override
     public String toString() {
-        return "Request [headers=" + headers + ", body=" + body + "]";
+        return "{'headers':'" + headers + "', 'body':'" + body + "'}";
     }
 }
