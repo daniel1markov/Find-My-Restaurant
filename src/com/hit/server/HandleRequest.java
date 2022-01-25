@@ -18,8 +18,8 @@ public class HandleRequest implements Runnable{
     PrintWriter out;
     RestaurantController controller;
 
-    public HandleRequest(Socket _socket) throws IOException {
-        socket = _socket;
+    public HandleRequest(Socket client) throws IOException {
+        socket = client;
         in = new Scanner(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
     }
@@ -30,10 +30,13 @@ public class HandleRequest implements Runnable{
         try {
             Type type = new TypeToken <Request>(){}.getType();
             Request request = gson.fromJson(in.next(), type);    // need to get the request from the client as Json an then switch case on it.
-            Response response = null;
+            Response response = new Response("Let's start");
             System.out.println("Got " + gson.toJson(request));
+            System.out.println(request.getBody());
+            System.out.println(request.getHeaders());
 
-             switch(request.getHeaders().get("action")){
+
+            switch(request.getHeaders().get("action")){
                  case "GetName" : {
                      response = new Response(controller.GetByName(request.getBody()));
                      System.out.println("case 1");
@@ -46,29 +49,42 @@ public class HandleRequest implements Runnable{
                  }
 
                  case "Create" : {
-
+                    String[] args = {"Category","Name","Address","City","PhoneNumber","Rating"};
+                    for(int i=0; i<args.length;i++)
+                    {
+                        args[i] = request.getHeaders().get(args[i]);
+                    }
+                    controller.SaveUpdateRestaurant(args);
+                    response = new Response(args[1] + " Rest, was added successfully");
                     System.out.println("case 3");
+
                      break;
                  }
+
                  case "Update" : {
+                     String[] args = {"Category","Name","Address","City","PhoneNumber","Rating"};
+                     for(int i=0; i<args.length;i++)
+                     {
+                         args[i] = request.getHeaders().get(args[i]);
+                     }
+                     controller.SaveUpdateRestaurant(args);
+                     response = new Response(args[1] + " Rest, was updated successfully");
                      System.out.println("case 4");
-                     out.println("");
-                     out.flush();
                      break;
                  }
                  case  "Delete": {
-                     System.out.println("case 5");
 
+                     String restName = request.getBody();
+                     controller.DeleteRest(restName);
+                     response = new Response(restName + " Rest, was deleted successfully");
+                     System.out.println("case 5");
                      break;
                  }
-                 default: System.out.println("default");
-
-
              }
-            // Parse the Request from in then run the //relevant methods in the specific controller and return //response to out at the end
-//             out.println(response.json);
-//             out.flush();
-//             System.out.println(response.json);
+
+             out.println(response.json);
+             out.flush();
+             System.out.println(response.json);
              out.close();
              in.close();
              socket.close();

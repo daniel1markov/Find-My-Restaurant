@@ -7,14 +7,14 @@ import java.util.List;
 public class Response {
     public String json;
 
-    public <T> Response(List<T> itsJson)
+    public <T> Response(List<T> makeItJson)
     {
-        if(itsJson.isEmpty())
+        if(makeItJson.isEmpty())
         {
             json = "We are sorry but it wasn't found";
         }
         else {
-            json = new Gson().toJson(itsJson);
+            json = new Gson().toJson(makeItJson);
         }
     }
 

@@ -18,30 +18,10 @@ public class RestaurantService {
         daoRestaurant = new DaoRestaurantImpl();
     }
 
-//    public String[] getInfo(){
-//
-//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object //for UI
-//        String[] restDetails = { "Category", "Name", "Address", "City", "Phone Number", "rating"};
-//        for(int i=0; i< restDetails.length; i++)
-//        {
-//            System.out.println("Enter " + restDetails[i] + " :");
-//            String details = myObj.nextLine();
-//            restDetails[i] =details;
-//        }
-//        return restDetails;
-//    }
-//
-//    public String getName(){
-//
-//        Scanner myObj = new Scanner(System.in);  // Create a Scanner object //for UI
-//        System.out.println("Enter the Name of the restaurant:");
-//        return myObj.nextLine();
-//    }
 
     public void createNewRest(String[] args) throws IOException {
 
         Restaurant restaurant = new Restaurant();
-//        String[] params = this.getInfo();
         restaurant.setCategory(Objects.requireNonNull(
                 args[0], "Category cannot be null"));
         restaurant.setName(Objects.requireNonNull(
@@ -116,11 +96,5 @@ public class RestaurantService {
         }
 
         return foundCategories.get(0);
-//        for (List<Restaurant> restaurants: foundCategories)
-//        {
-//            for (Restaurant  rest: restaurants) {
-//                System.out.println(rest.printRestDetails() + "\n"); //for UI
-//            }
-//        }
     }
 }

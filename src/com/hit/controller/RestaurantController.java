@@ -25,4 +25,14 @@ public class RestaurantController {
     public List <Restaurant> GetByCategory(String category) throws IOException {
         return restaurantService.getRestaurantDetailsByCategory(category);
     }
+
+    public void SaveUpdateRestaurant(String [] args) throws IOException {
+        restaurantService.createNewRest(args);
+    }
+
+    public void DeleteRest (String restName) throws IOException {
+
+        restaurantService.deleteRest(restName);
+    }
+
 }
