@@ -30,7 +30,7 @@ public class HandleRequest implements Runnable{
         try {
             Type type = new TypeToken <Request>(){}.getType();
             Request request = gson.fromJson(in.next(), type);    // need to get the request from the client as Json an then switch case on it.
-            Response response = new Response("Let's start");
+            Response response = null;
             System.out.println("Got " + gson.toJson(request));
             System.out.println(request.getBody());
             System.out.println(request.getHeaders());
@@ -82,9 +82,11 @@ public class HandleRequest implements Runnable{
                  }
              }
 
-             out.println(response.json);
-             out.flush();
-             System.out.println(response.json);
+             if(response != null) {
+                 out.println(response.json);
+                 out.flush();
+                 System.out.println(response.json);
+             }
              out.close();
              in.close();
              socket.close();
