@@ -13,6 +13,7 @@ import java.util.logging.Level;
 public class DaoRestaurantImpl implements IDao<String, Restaurant>{
 
     Gson gson = new Gson();
+    public boolean deleted;
     List<Restaurant> restaurants = new ArrayList <>();
     Map<String, List<Restaurant>> categories = new HashMap <>();
     private final String wholePath = "resources/Restaurant.json";
@@ -94,12 +95,15 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{
         FileWriter fileWriter = new FileWriter(wholePath);
         FileWriter fileWriterCategory = new FileWriter(categoryPath);
 
+        deleted = false;
+
         for (int countAll = 0 ; countAll < restHolder.size(); countAll++) //delete from the whole rests.
         {
             if (restHolder.get(countAll).getName().equalsIgnoreCase(restaurantName)) {
                 category = restHolder.get(countAll).getCategory();
                 restHolder.remove(countAll);
                 JavaLogger.logger.log(Level.INFO, restaurantName + " rest Was deleted from whole restaurants list successfully.\n");
+                deleted = true;
             }
         }
 

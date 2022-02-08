@@ -30,9 +30,10 @@ public class RestaurantController {
         restaurantService.createNewRest(args);
     }
 
-    public void DeleteRest (String restName) throws IOException {
+    public boolean DeleteRest (String restName) throws IOException {
 
         restaurantService.deleteRest(restName);
+        return restaurantService.daoRestaurant.deleted;
     }
 
 }

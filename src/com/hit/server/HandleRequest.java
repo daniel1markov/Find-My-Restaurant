@@ -57,7 +57,7 @@ public class HandleRequest implements Runnable{
                         args[i] = request.getHeaders().get(args[i]);
                     }
                     controller.SaveUpdateRestaurant(args);
-                    response = new Response(args[1] + " Rest, was Added/Updated successfully");
+                    response = new Response("OK");
                     System.out.println("case 3");
 
                      break;
@@ -66,8 +66,14 @@ public class HandleRequest implements Runnable{
                  case  "Delete": {
 
                      String restName = request.getBody();
-                     controller.DeleteRest(restName);
-                     response = new Response(restName + " Rest, was deleted successfully");
+                     if(controller.DeleteRest(restName))
+                     {
+                         response = new Response("OK");
+                     }
+                     else
+                     {
+                         response = new Response("NOT");
+                     }
                      System.out.println("case 5");
                      break;
                  }
