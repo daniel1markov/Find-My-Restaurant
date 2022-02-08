@@ -22,6 +22,7 @@ public class HandleRequest implements Runnable{
         socket = client;
         in = new Scanner(new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+        controller = new RestaurantController();
     }
 
     @Override
@@ -37,6 +38,7 @@ public class HandleRequest implements Runnable{
 
 
             switch(request.getHeaders().get("action")){
+
                  case "GetName" : {
                      response = new Response(controller.GetByName(request.getBody()));
                      System.out.println("case 1");
@@ -48,30 +50,19 @@ public class HandleRequest implements Runnable{
                     break;
                  }
 
-                 case "Create" : {
+                 case "Add/Update" : {
                     String[] args = {"Category","Name","Address","City","PhoneNumber","Rating"};
                     for(int i=0; i<args.length;i++)
                     {
                         args[i] = request.getHeaders().get(args[i]);
                     }
                     controller.SaveUpdateRestaurant(args);
-                    response = new Response(args[1] + " Rest, was added successfully");
+                    response = new Response(args[1] + " Rest, was Added/Updated successfully");
                     System.out.println("case 3");
 
                      break;
                  }
 
-                 case "Update" : {
-                     String[] args = {"Category","Name","Address","City","PhoneNumber","Rating"};
-                     for(int i=0; i<args.length;i++)
-                     {
-                         args[i] = request.getHeaders().get(args[i]);
-                     }
-                     controller.SaveUpdateRestaurant(args);
-                     response = new Response(args[1] + " Rest, was updated successfully");
-                     System.out.println("case 4");
-                     break;
-                 }
                  case  "Delete": {
 
                      String restName = request.getBody();
@@ -83,9 +74,9 @@ public class HandleRequest implements Runnable{
              }
 
              if(response != null) {
-                 out.println(response.json);
+                 out.println(gson.toJson(response));
                  out.flush();
-                 System.out.println(response.json);
+                 System.out.println(gson.toJson(response));
              }
              out.close();
              in.close();

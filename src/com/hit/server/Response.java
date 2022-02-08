@@ -1,22 +1,19 @@
 package com.hit.server;
 
 import com.google.gson.Gson;
+import com.hit.dm.Restaurant;
 
 import java.util.List;
 
 public class Response {
     public String json;
+    public List<Restaurant> rest;
 
-    public <T> Response(List<T> makeItJson)
+    public Response(List<Restaurant> rests)
     {
-        if(makeItJson.isEmpty())
-        {
-            json = "We are sorry but it wasn't found";
-        }
-        else {
-            json = new Gson().toJson(makeItJson);
-        }
+        this.rest = rests;
     }
+
 
     public Response(String string) {
         json = string;
@@ -24,5 +21,9 @@ public class Response {
     public Response()
     {
 
+    }
+
+    public String toString() {
+        return  "{'Rests':" + rest + "', 'json':'" + json + "'}";
     }
 }

@@ -164,12 +164,12 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{
 
     public void firstInjection()
     {
-        Restaurant rest1 = new Restaurant("Burgers", "wooow", "Ovadia 19", "Rishon-LeZion", "03-32001211", "5.0");
-        Restaurant rest2 = new Restaurant("Sushi", "Tompopo", "Ezel 42", "Tel-Aviv", "03-3443211", "4.7");
-        Restaurant rest3 = new Restaurant("Pizza", "Hut", "Stal 2","Holon", "03-33453211", "4.0");
-        Restaurant rest4 = new Restaurant("Burgers", "Garage", "Ovadia 13","Rishon-LeZion", "03-3111211", "4.8");
-        Restaurant rest5 = new Restaurant("Sushi", "One", "Eliezer 5", "Tel-Aviv", "03-1113211", "4.9");
-        Restaurant rest6 = new Restaurant("Pizza", "Pazaz", "Binyamin 74", "Holon", "03-33453211", "3.2");
+        Restaurant rest1 = new Restaurant("Burgers", "Wooow", "Ovadia-19", "Rishon-LeZion", "03-32001211", "5.0");
+        Restaurant rest2 = new Restaurant("Sushi", "Tompopo", "Ezel-42", "Tel-Aviv", "03-3443211", "4.7");
+        Restaurant rest3 = new Restaurant("Pizza", "Hut", "Stal-2","Holon", "03-33453211", "4.0");
+        Restaurant rest4 = new Restaurant("Burgers", "Garage", "Ovadia-13","Rishon-LeZion", "03-3111211", "4.8");
+        Restaurant rest5 = new Restaurant("Sushi", "One", "Eliezer-5", "Tel-Aviv", "03-1113211", "4.9");
+        Restaurant rest6 = new Restaurant("Pizza", "Pazaz", "Binyamin-74", "Holon", "03-33453211", "3.2");
 
         List<Restaurant> burgers = new ArrayList <>();
         List<Restaurant> pizza = new ArrayList <>();
