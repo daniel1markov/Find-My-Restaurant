@@ -21,15 +21,27 @@ public class DaoRestaurantImpl implements IDao<String, Restaurant>{
 
     public DaoRestaurantImpl() throws IOException {
 
-        firstInjection();
-       FileWriter fileWriter = new FileWriter(wholePath);
-       FileWriter fileWriterCategory = new FileWriter(categoryPath);
-       String toJson = gson.toJson(restaurants);
-       fileWriter.write(toJson);
-       fileWriter.close();
-       String categoryJson =  gson.toJson(categories);
-       fileWriterCategory.write(categoryJson);
-       fileWriterCategory.close();
+        List<Restaurant> restHolder = null;
+        try{
+
+            Type type = new TypeToken <List<Restaurant>>(){}.getType();
+            FileReader fileReader = new FileReader(wholePath);
+            restHolder = gson.fromJson(fileReader, type);
+        }
+        catch(Exception ex){}
+
+        if(restHolder == null) {
+            firstInjection();
+            FileWriter fileWriter = new FileWriter(wholePath);
+            FileWriter fileWriterCategory = new FileWriter(categoryPath);
+            String toJson = gson.toJson(restaurants);
+            fileWriter.write(toJson);
+            fileWriter.close();
+            String categoryJson =  gson.toJson(categories);
+            fileWriterCategory.write(categoryJson);
+            fileWriterCategory.close();
+        }
+
     }
 
     @Override

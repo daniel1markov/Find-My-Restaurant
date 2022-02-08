@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class RestaurantServiceTest {
+public class RestaurantServiceTest { // We need to start with blank json files (delete the DB), as it saves the new rests to our DB.
 
     RestaurantService restaurantService = new RestaurantService();
 
