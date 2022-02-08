@@ -66,6 +66,7 @@ public class RestaurantService {
         {
             JavaLogger.logger.log(Level.INFO, restaurantName + " Restaurant not found" );
             System.out.println("Sorry, There's no Rest with that name or you have misspelled it"); //for UI
+            return null;
         }
         return foundRests;
     }
@@ -88,6 +89,7 @@ public class RestaurantService {
                 foundCategories.add(allCategories.get(rest));
             }
         }
+
         if(!found)
         {
             JavaLogger.logger.log(Level.WARNING,  category + " Category was not found" );
