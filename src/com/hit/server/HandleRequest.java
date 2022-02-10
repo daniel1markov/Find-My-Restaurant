@@ -36,13 +36,11 @@ public class HandleRequest implements Runnable{
             switch(request.getHeaders().get("action")){
 
                  case "GetName" : {
-                     response = new Response(controller.GetByName(request.getBody()));
-                     System.out.println("case 1");
+                     response = new Response(controller.getByName(request.getBody()));
                      break;
                  }
                  case "GetCategory" : {
-                    response = new Response(controller.GetByCategory(request.getBody()));
-                    System.out.println("case 2");
+                    response = new Response(controller.getByCategory(request.getBody()));
                     break;
                  }
 
@@ -52,7 +50,7 @@ public class HandleRequest implements Runnable{
                     {
                         args[i] = request.getHeaders().get(args[i]);
                     }
-                    controller.SaveUpdateRestaurant(args);
+                    controller.saveUpdateRestaurant(args);
                     response = new Response("OK");
                      break;
                  }
@@ -60,7 +58,7 @@ public class HandleRequest implements Runnable{
                  case  "Delete": {
 
                      String restName = request.getBody();
-                     if(controller.DeleteRest(restName))
+                     if(controller.deleteRest(restName))
                      {
                          response = new Response("OK");
                      }
@@ -73,7 +71,7 @@ public class HandleRequest implements Runnable{
 
                 case "GetAll":{
 
-                    response = new Response(controller.GetAll());
+                    response = new Response(controller.getAll());
                     break;
                 }
              }
@@ -81,7 +79,6 @@ public class HandleRequest implements Runnable{
              if(response != null) {
                  out.println(gson.toJson(response));
                  out.flush();
-                 System.out.println(gson.toJson(response));
              }
              out.close();
              in.close();
