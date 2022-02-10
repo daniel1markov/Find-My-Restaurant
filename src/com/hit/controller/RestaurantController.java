@@ -18,6 +18,10 @@ public class RestaurantController {
         }
     }
 
+    public List<Restaurant> GetAll() throws IOException {
+        return restaurantService.daoRestaurant.findAll();
+    }
+
     public List<Restaurant> GetByName(String name) throws IOException {
         return restaurantService.getRestaurantDetailsByName(name);
     }

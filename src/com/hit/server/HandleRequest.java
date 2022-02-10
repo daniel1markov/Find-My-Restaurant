@@ -32,10 +32,6 @@ public class HandleRequest implements Runnable{
             Type type = new TypeToken <Request>(){}.getType();
             Request request = gson.fromJson(in.next(), type);    // need to get the request from the client as Json an then switch case on it.
             Response response = null;
-            System.out.println("Got " + gson.toJson(request));
-            System.out.println(request.getBody());
-            System.out.println(request.getHeaders());
-
 
             switch(request.getHeaders().get("action")){
 
@@ -58,8 +54,6 @@ public class HandleRequest implements Runnable{
                     }
                     controller.SaveUpdateRestaurant(args);
                     response = new Response("OK");
-                    System.out.println("case 3");
-
                      break;
                  }
 
@@ -74,9 +68,14 @@ public class HandleRequest implements Runnable{
                      {
                          response = new Response("NOT");
                      }
-                     System.out.println("case 5");
                      break;
                  }
+
+                case "GetAll":{
+
+                    response = new Response(controller.GetAll());
+                    break;
+                }
              }
 
              if(response != null) {
