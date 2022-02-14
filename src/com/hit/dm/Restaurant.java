@@ -82,10 +82,4 @@ public class Restaurant implements Serializable {
                 ", 'PhoneNumber':'" + this.getPhoneNumber() + '\'' +
                 ", 'Rating':'" + this.getRating() + "'}";
     }
-
-    public String printRestDetails() {
-        return this.getName() + ", " + this.getCategory()+ ", " + this.getAddress() + ", " + this.getCity() + ", "
-                + this.getPhoneNumber()  + ", " + this.getRating();
-    }
-
 }
