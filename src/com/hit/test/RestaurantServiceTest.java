@@ -1,3 +1,5 @@
+package com.hit.test;
+
 import com.hit.dm.Restaurant;
 import com.hit.service.RestaurantService;
 import org.junit.Assert;
